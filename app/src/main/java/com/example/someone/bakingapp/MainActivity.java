@@ -9,13 +9,21 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.someone.bakingapp.models.Recipe;
+import com.example.someone.bakingapp.network.DataService;
+import com.example.someone.bakingapp.network.RetrofitClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -26,6 +34,34 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+        //creating call using client to get recipe data
+        DataService service = RetrofitClient.getRetrofitInstance().create(DataService.class);
+        Call<Recipe> call = service.getRecipes();
+        ExecuteClient(call);
+    }
+
+    private void ExecuteClient(Call<Recipe> call) {
+
+        try {
+            call.enqueue(new Callback<Recipe>(){
+
+
+                @Override
+                public void onResponse(Call<Recipe> call, Response<Recipe> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<Recipe> call, Throwable t) {
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
