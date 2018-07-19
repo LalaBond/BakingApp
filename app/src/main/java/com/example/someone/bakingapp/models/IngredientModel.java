@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class IngredientModel {
 
     @SerializedName("quantity")
-    public Integer quantity;
+    public float quantity;
 
     @SerializedName("measure")
     public String measure;

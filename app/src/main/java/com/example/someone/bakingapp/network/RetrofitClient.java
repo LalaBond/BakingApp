@@ -11,7 +11,7 @@ public class RetrofitClient {
 
     private static Retrofit retrofit;
 
-    private static String BASE_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+    private static String BASE_URL = "https://d17h27t6h515a5.cloudfront.net/";
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
