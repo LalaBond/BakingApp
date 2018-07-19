@@ -1,12 +1,16 @@
 package com.example.someone.bakingapp.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.someone.bakingapp.R;
+import com.example.someone.bakingapp.RecipeDetailsActivity;
 import com.example.someone.bakingapp.models.RecipeModel;
 
 import java.util.List;
@@ -18,8 +22,9 @@ import java.util.List;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
 
     private List<RecipeModel> recipes;
+    private Context context;
 
-    public RecipeAdapter(List<RecipeModel> body) {
+    public RecipeAdapter(Context context, List<RecipeModel> body) {
 
         recipes = body;
     }
@@ -48,10 +53,24 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView nameTv;
+        LinearLayout itemLinearLayout;
         public ViewHolder(View itemView) {
             super(itemView);
 
             nameTv = itemView.findViewById(R.id.name);
+            itemLinearLayout = itemView.findViewById(R.id.itemlinearLayout);
+
+            itemLinearLayout.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    Intent recipeDetails = new Intent(context, RecipeDetailsActivity.class);
+
+                    //moviePreview.putExtra("movies", movieList.get(getAdapterPosition()));
+                    context.startActivity(recipeDetails);
+
+                }
+            });
         }
     }
 }

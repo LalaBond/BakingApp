@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void createAdapter(List<RecipeModel> body) {
 
-        RecipeAdapter adapter = new RecipeAdapter(body);
+        RecipeAdapter adapter = new RecipeAdapter(this, body);
 
         RecyclerView recipeRecyclerView = findViewById(R.id.recipeRecyclerView);
 
