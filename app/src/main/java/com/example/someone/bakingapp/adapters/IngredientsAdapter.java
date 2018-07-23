@@ -14,6 +14,7 @@ import java.util.List;
  * Created by someone on 7/19/18.
  */
 
+/*Adapter to display ingredients in the view pager*/
 public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.ViewHolder> {
     public IngredientsAdapter(Context context, List<RecipeModel> recipeModel) {
     }

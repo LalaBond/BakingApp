@@ -30,13 +30,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        try {
             setContentView(R.layout.activity_main);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("$lala error => ", e.toString());
-        }
+
 
 
         if (findViewById(R.id.tablet_linear_layout) != null) {

@@ -2,6 +2,7 @@ package com.example.someone.bakingapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,15 +15,18 @@ import com.example.someone.bakingapp.R;
 import com.example.someone.bakingapp.RecipeDetailsActivity;
 import com.example.someone.bakingapp.models.RecipeModel;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by someone on 7/18/18.
  */
 
+/*Adapter to display recipes in the Main Activity*/
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder> {
 
-    private List<RecipeModel> recipes;
+    private List<RecipeModel> recipes = new ArrayList<>();
     private Context context;
 
     public RecipeAdapter(Context context, List<RecipeModel> body) {
@@ -69,7 +73,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
                     Intent recipeDetails = null;
                     try {
+                        //Intent moviePreview = new Intent(context, MoviePreviewActivity.class);
                         recipeDetails = new Intent(context, RecipeDetailsActivity.class);
+                        recipeDetails.putExtra("recipe", (Serializable) recipes.get(getAdapterPosition()));
+
                     } catch (Exception e) {
                         e.printStackTrace();
                         Log.e("$lala error -> ", e.toString());

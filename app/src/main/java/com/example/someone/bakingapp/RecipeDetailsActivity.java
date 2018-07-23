@@ -3,6 +3,7 @@ package com.example.someone.bakingapp;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -26,14 +27,18 @@ import java.util.List;
 public class RecipeDetailsActivity extends AppCompatActivity {
 
 private ViewPager pager;
-
+    private List<RecipeModel> recipeModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_details);
 
-        //GET DATA OF BUNDLE
 
+        Intent intent = getIntent();
+
+        recipeModel = (List<RecipeModel>) intent.getSerializableExtra("recipe");
+
+        /*View pager adapter*/
         RecipePagerAdapter pagerAdapter = new RecipePagerAdapter(getSupportFragmentManager(), this);
         pager = findViewById(R.id.pager);
         pager.setAdapter(pagerAdapter);
