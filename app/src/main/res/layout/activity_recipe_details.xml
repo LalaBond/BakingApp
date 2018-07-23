@@ -12,15 +12,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
-        android:id="@+id/recipeImage"
-        />
+        android:id="@+id/recipeImage"/>
 
         <!-- VIEW PAGER-->
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/pager"
-        android:background="#97d9ed"/>
+        android:background="@android:color/white">
+
+    <android.support.v4.view.PagerTitleStrip
+        android:id="@+id/pager_title_strip"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="top"
+        android:background="#33b5e5"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp" />
+
+    </android.support.v4.view.ViewPager>
 
 
 </LinearLayout>

@@ -25,7 +25,7 @@ import java.util.List;
 
 public class RecipeDetailsActivity extends AppCompatActivity {
 
-
+private ViewPager pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,35 +35,8 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         //GET DATA OF BUNDLE
 
         RecipePagerAdapter pagerAdapter = new RecipePagerAdapter(getSupportFragmentManager(), this);
-        ViewPager pager = findViewById(R.id.pager);
+        pager = findViewById(R.id.pager);
         pager.setAdapter(pagerAdapter);
-
-//        ActionBar actionBar = getActionBar();
-//
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-//
-//        // Create a tab listener that is called when the user changes tabs.
-//        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-//            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-//                // show the given tab
-//            }
-//
-//            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-//                // hide the given tab
-//            }
-//
-//            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-//                // probably ignore this event
-//            }
-//        };
-//
-//        // Add 3 tabs, specifying the tab's text and TabListener
-//        for (int i = 0; i < 2; i++) {
-//            actionBar.addTab(
-//                    actionBar.newTab()
-//                            .setText("Tab " + (i + 1))
-//                            .setTabListener(tabListener));
-//        }
 
     }
 }
@@ -100,7 +73,6 @@ class RecipePagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0:
-
                 return context.getString(R.string.ingredientsString);
             case 1:
                 return context. getString(R.string.stepsString);
@@ -108,19 +80,4 @@ class RecipePagerAdapter extends FragmentStatePagerAdapter {
                 return null;
         }
     }
-
-//    public static class DemoObjectFragment extends Fragment {
-//        public static final String ARG_OBJECT = "object";
-//
-//        @Override
-//        public View onCreateView(LayoutInflater inflater,
-//                                 ViewGroup container, Bundle savedInstanceState) {
-//            // The last two arguments ensure LayoutParams are inflated
-//            // properly.
-//            View rootView = inflater.inflate(R.layout.fragment_collection_object, container, false);
-//            Bundle args = getArguments();
-//            ((TextView) rootView.findViewById(android.R.id.text1)).setText(Integer.toString(args.getInt(ARG_OBJECT)));
-//            return rootView;
-//        }
-    //}
 }
