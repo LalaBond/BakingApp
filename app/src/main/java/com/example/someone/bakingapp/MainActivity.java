@@ -30,37 +30,55 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-
-        //creating call using client to get recipe data
         try {
-            DataService service = RetrofitClient.getRetrofitInstance().create(DataService.class);
-            Call<List<RecipeModel>> call = service.getRecipes();
-            ExecuteClient(call);
-
+            setContentView(R.layout.activity_main);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("$lala error -> ", e.toString());
+            Log.e("$lala error => ", e.toString());
         }
+
+
+        if (findViewById(R.id.tablet_linear_layout) != null) {
+
+            RetrofitCall();
+
+        } else {
+            //populate phone
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+            FloatingActionButton fab = findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
+
+
+            //creating call using client to get recipe data
+            try {
+                RetrofitCall();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e("$lala error -> ", e.toString());
+            }
+        }
+    }
+
+    private void RetrofitCall() {
+        DataService service = RetrofitClient.getRetrofitInstance().create(DataService.class);
+        Call<List<RecipeModel>> call = service.getRecipes();
+        ExecuteClient(call);
     }
 
     private void ExecuteClient(Call<List<RecipeModel>> call) {
 
         try {
             call.enqueue(new Callback<List<RecipeModel>>(){
-
 
                 @Override
                 public void onResponse(Call<List<RecipeModel>> call, Response<List<RecipeModel>> response) {

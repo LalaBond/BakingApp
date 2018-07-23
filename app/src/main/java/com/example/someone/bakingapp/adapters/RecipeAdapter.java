@@ -3,6 +3,7 @@ package com.example.someone.bakingapp.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     public RecipeAdapter(Context context, List<RecipeModel> body) {
 
         recipes = body;
+        this.context = context;
     }
 
     @Override
@@ -64,7 +66,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
                 @Override
                 public void onClick(View view) {
-                    Intent recipeDetails = new Intent(context, RecipeDetailsActivity.class);
+
+                    Intent recipeDetails = null;
+                    try {
+                        recipeDetails = new Intent(context, RecipeDetailsActivity.class);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.e("$lala error -> ", e.toString());
+                    }
 
                     //moviePreview.putExtra("movies", movieList.get(getAdapterPosition()));
                     context.startActivity(recipeDetails);
