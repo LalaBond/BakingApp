@@ -27,7 +27,7 @@ import java.util.List;
 public class RecipeDetailsActivity extends AppCompatActivity {
 
 private ViewPager pager;
-    private List<RecipeModel> recipeModel;
+    private RecipeModel recipeModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,10 +36,11 @@ private ViewPager pager;
 
         Intent intent = getIntent();
 
-        recipeModel = (List<RecipeModel>) intent.getSerializableExtra("recipe");
+        recipeModel = (RecipeModel) intent.getSerializableExtra("recipe");
 
         /*View pager adapter*/
-        RecipePagerAdapter pagerAdapter = new RecipePagerAdapter(getSupportFragmentManager(), this);
+        RecipePagerAdapter pagerAdapter = new RecipePagerAdapter(getSupportFragmentManager(), this, recipeModel);
+
         pager = findViewById(R.id.pager);
         pager.setAdapter(pagerAdapter);
 
@@ -49,11 +50,13 @@ private ViewPager pager;
 class RecipePagerAdapter extends FragmentStatePagerAdapter {
 
     private Context context;
+    private RecipeModel recipeModel;
 
-    public RecipePagerAdapter(FragmentManager fm, Context context) {
+    public RecipePagerAdapter(FragmentManager fm, Context context, RecipeModel recipeModel) {
         super(fm);
 
         this.context = context;
+        this.recipeModel = recipeModel;
     }
 
     @Override
@@ -61,9 +64,9 @@ class RecipePagerAdapter extends FragmentStatePagerAdapter {
 
        switch (position){
            case 0:
-               return new IngredientsFragment(context);
+               return new IngredientsFragment(context, recipeModel);
            case 1:
-               return new RecipeStepsFragment();
+               return new RecipeStepsFragment(context, recipeModel);
            default:
                return null;
        }

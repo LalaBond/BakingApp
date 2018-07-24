@@ -10,53 +10,30 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.someone.bakingapp.R;
 import com.example.someone.bakingapp.adapters.IngredientsAdapter;
 import com.example.someone.bakingapp.models.RecipeModel;
 
-import java.util.List;
-//
-///**
-// * A simple {@link Fragment} subclass.
-// * Use the {@link IngredientsFragment#newInstance} factory method to
-// * create an instance of this fragment.
-// */
 @SuppressLint("ValidFragment")
 public class IngredientsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private List<RecipeModel> recipeModel;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private Context context;
-
+    private RecipeModel recipeModel;
 
     @SuppressLint("ValidFragment")
-    public IngredientsFragment(Context context) {
-        // Required empty public constructor
+    public IngredientsFragment(Context context, RecipeModel recipeModel) {
         this.context = context;
+        this.recipeModel = recipeModel;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ingredients, container, false);
+        TextView servingQtyTv = view.findViewById(R.id.servingQty);
+        servingQtyTv.setText(String.valueOf(recipeModel.getServings()));
 
         IngredientsAdapter ingredientsAdapter = new IngredientsAdapter(context, recipeModel);
         RecyclerView ingredientsRecyclerView = view.findViewById(R.id.ingredientsRecyclerView);

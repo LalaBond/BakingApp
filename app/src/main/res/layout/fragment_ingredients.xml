@@ -1,7 +1,8 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.someone.bakingapp.fragments.IngredientsFragment">
 
     <RelativeLayout
@@ -12,7 +13,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:text="Ingredients"
+            android:id="@+id/ingredientsText"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true" />
 
@@ -33,11 +36,13 @@
                 android:text="Servings"
                 android:layout_gravity="center_horizontal" />
         </LinearLayout>
+
+
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ingredientsRecyclerView"/>
+        android:id="@+id/ingredientsRecyclerView" />
 
-</FrameLayout>
+</LinearLayout>

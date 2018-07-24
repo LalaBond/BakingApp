@@ -75,15 +75,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                     try {
                         //Intent moviePreview = new Intent(context, MoviePreviewActivity.class);
                         recipeDetails = new Intent(context, RecipeDetailsActivity.class);
-                        recipeDetails.putExtra("recipe", (Serializable) recipes.get(getAdapterPosition()));
 
+                        RecipeModel x = recipes.get(getAdapterPosition());
+
+                        recipeDetails.putExtra("recipe", recipes.get(getAdapterPosition()));
+
+                        context.startActivity(recipeDetails);
                     } catch (Exception e) {
                         e.printStackTrace();
                         Log.e("$lala error -> ", e.toString());
                     }
 
                     //moviePreview.putExtra("movies", movieList.get(getAdapterPosition()));
-                    context.startActivity(recipeDetails);
 
                 }
             });

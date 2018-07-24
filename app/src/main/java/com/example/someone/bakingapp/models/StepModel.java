@@ -2,11 +2,13 @@ package com.example.someone.bakingapp.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by someone on 7/18/18.
  */
 
-public class StepModel {
+public class StepModel implements Serializable {
 
     @SerializedName("id")
     public Integer id;
