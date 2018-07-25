@@ -33,7 +33,7 @@ public class RecipeStepsFragment extends Fragment {
 
          View view = inflater.inflate(R.layout.fragment_recipe_steps, container, false);
 
-        StepsAdapter stepsAdapter = new StepsAdapter(recipeModel);
+        StepsAdapter stepsAdapter = new StepsAdapter(context, recipeModel);
         RecyclerView stepsRecyclerView = view.findViewById(R.id.stepsRecyclerView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);

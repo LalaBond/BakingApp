@@ -73,11 +73,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
                     Intent recipeDetails = null;
                     try {
-                        //Intent moviePreview = new Intent(context, MoviePreviewActivity.class);
+
                         recipeDetails = new Intent(context, RecipeDetailsActivity.class);
-
-                        RecipeModel x = recipes.get(getAdapterPosition());
-
                         recipeDetails.putExtra("recipe", recipes.get(getAdapterPosition()));
 
                         context.startActivity(recipeDetails);
@@ -85,8 +82,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                         e.printStackTrace();
                         Log.e("$lala error -> ", e.toString());
                     }
-
-                    //moviePreview.putExtra("movies", movieList.get(getAdapterPosition()));
 
                 }
             });

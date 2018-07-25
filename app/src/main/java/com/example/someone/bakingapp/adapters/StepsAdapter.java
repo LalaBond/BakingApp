@@ -1,13 +1,16 @@
 package com.example.someone.bakingapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.someone.bakingapp.R;
+import com.example.someone.bakingapp.StepDetailsActivity;
 import com.example.someone.bakingapp.models.RecipeModel;
 
 /**
@@ -17,10 +20,12 @@ import com.example.someone.bakingapp.models.RecipeModel;
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder>  {
 
     private RecipeModel recipeModel;
+    private Context context;
 
-    public StepsAdapter(RecipeModel recipeModel) {
+    public StepsAdapter(Context context, RecipeModel recipeModel) {
 
         this.recipeModel = recipeModel;
+        this.context = context;
     }
 
 
@@ -49,12 +54,26 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView stepNumberTv, shortDescriptionTv;
+        LinearLayout linearLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             stepNumberTv = itemView.findViewById(R.id.stepNumberTv);
             shortDescriptionTv = itemView.findViewById(R.id.shortDescriptionTv);
+            linearLayout = itemView.findViewById(R.id.linearLayout);
+
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View view) {
+
+                           Intent intent = new Intent(context, StepDetailsActivity.class);
+                           intent.putExtra("recipe", recipeModel);
+                           context.startActivity(intent);
+
+                       }
+            }
+            );
         }
     }
 }
