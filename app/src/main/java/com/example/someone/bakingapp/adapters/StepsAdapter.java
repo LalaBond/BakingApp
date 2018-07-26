@@ -3,6 +3,7 @@ package com.example.someone.bakingapp.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,9 +68,14 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
                        @Override
                        public void onClick(View view) {
 
-                           Intent intent = new Intent(context, StepDetailsActivity.class);
-                           intent.putExtra("recipe", recipeModel);
-                           context.startActivity(intent);
+                           try {
+                               Intent intent = new Intent(context, StepDetailsActivity.class);
+                               intent.putExtra("recipe", recipeModel.getSteps().get((getAdapterPosition())));
+                               context.startActivity(intent);
+                           } catch (Exception e) {
+                               e.printStackTrace();
+                               Log.e("$lala error -> ", e.toString());
+                           }
 
                        }
             }
