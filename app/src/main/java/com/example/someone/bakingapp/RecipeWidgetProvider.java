@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.someone.bakingapp.models.RecipeModel;
@@ -23,28 +24,27 @@ import retrofit2.Response;
 public class RecipeWidgetProvider extends AppWidgetProvider {
 
     private static RemoteViews views;
-    private static Context context;
+
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
 
-
-        //CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
-        views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
-        //views.setTextViewText(R.id.widget_recipe_text, widgetText);
+        try {
+            views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
 
-        Intent intent = new Intent(context, RecipeWidgetViewService.class);
-        views.setRemoteAdapter(R.id.widget_ingredient_list, intent);
-
-       // RetrofitCall();
+            Intent intent = new Intent(context, RecipeWidgetViewService.class);
+            views.setRemoteAdapter(R.id.widget_ingredient_list, intent);
 
 
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
+            // Instruct the widget manager to update the widget
+            appWidgetManager.updateAppWidget(appWidgetId, views);
+
+        }catch(Exception e){
+
+            Log.e("$lala error -> ", e.toString());
+        }
     }
-
-    /*API CALL FOR WIDGET*/
 
 
     @Override

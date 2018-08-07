@@ -50,7 +50,6 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
 
         Log.e("TAG", "ENTERING ONCREATE WIDGET");
 
-
     }
 
     private void RetrofitCall() {
@@ -66,7 +65,6 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
             public void onResponse(Call<List<RecipeModel>> call, Response<List<RecipeModel>> response) {
 
                 body = response.body();
-
             }
 
             @Override
@@ -115,16 +113,16 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
 
     @Override
     public int getViewTypeCount() {
-        return 0;
+        return 1;
     }
 
     @Override
-    public long getItemId(int i) {
-        return 0;
+    public long getItemId(int pos) {
+        return pos;
     }
 
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 }
