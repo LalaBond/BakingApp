@@ -42,8 +42,7 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
 
         context = applicationContext;
         RetrofitCall();
-
-    }
+            }
 
     @Override
     public void onCreate() {
@@ -77,7 +76,7 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
 
     @Override
     public void onDataSetChanged() {
-
+        RetrofitCall();
     }
 
     @Override
@@ -87,21 +86,29 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
 
     @Override
     public int getCount() {
-        int x = body.get(0).getIngredients().size();
-        return x;
+
+        if(body != null) {
+            int x = body.get(0).getIngredients().size();
+            return x;
+        }else{
+         return 0;
+        }
+
     }
 
     @Override
     public RemoteViews getViewAt(int i) {
 
         //setting up ingredients of the first list in item
-        body.get(0).getIngredients().get(i);
-//        String x = String.valueOf(body.get(0).getIngredients().get(i).quantity);
 
-        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.ingredients_item_layout);
+        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.ingredient_widget_list_item);
         rv.setTextViewText(R.id.ingredient,body.get(0).getIngredients().get(i).ingredient);
         rv.setTextViewText(R.id.quantity, String.valueOf(body.get(0).getIngredients().get(i).quantity));
         rv.setTextViewText(R.id.measure, body.get(0).getIngredients().get(i).measure);
+
+//        rv.setTextViewText(R.id.ingredient,"MOFONGO");
+//        rv.setTextViewText(R.id.quantity,"ARROZ");
+//        rv.setTextViewText(R.id.measure, "BICHUELAAAA");
 
         return rv;
     }
@@ -113,7 +120,8 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
 
     @Override
     public int getViewTypeCount() {
-        return 1;
+
+            return 1;
     }
 
     @Override

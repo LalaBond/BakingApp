@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/white">
+    android:background="#ffffff">
 
     <TextView
         android:id="@+id/widget_recipe_text"
@@ -17,10 +17,14 @@
         android:textSize="24sp"
         tools:text="Nutella Pie"
         android:textStyle="bold|italic" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="click here"
+        android:id="@+id/button"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/widget_ingredient_list"
-        />
+        android:id="@+id/widget_ingredient_list"/>
 
 </LinearLayout>
