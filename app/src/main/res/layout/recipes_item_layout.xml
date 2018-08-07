@@ -6,8 +6,7 @@
     android:layout_height="80dp"
     android:id="@+id/itemlinearLayout"
     android:orientation="vertical"
-    android:background="@drawable/list_corner_radius"
-    >
+    android:background="@drawable/list_corner_radius">
 
     <TextView
         android:layout_width="match_parent"
