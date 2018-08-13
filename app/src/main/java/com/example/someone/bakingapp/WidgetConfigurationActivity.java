@@ -2,47 +2,95 @@ package com.example.someone.bakingapp;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.RemoteViews;
+
+import com.example.someone.bakingapp.adapters.ConfigurationActivityAdapter;
+import com.example.someone.bakingapp.adapters.RecipeAdapter;
+import com.example.someone.bakingapp.models.RecipeModel;
+import com.example.someone.bakingapp.network.DataService;
+import com.example.someone.bakingapp.network.RetrofitClient;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class WidgetConfigurationActivity extends AppCompatActivity {
 
-    int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+    private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_widget_configuration);
 
+        Log.e("INFO", "ENTERING WIDGET CONFIGURATION ACTIVITY");
+
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if (extras != null) {
-            mAppWidgetId = extras.getInt(
-                    AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
+            mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         }
 
-
-
-
-
+        RetrofitCall();
         //perform widget configuration
-
-
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
 
-
-        RemoteViews views = new RemoteViews(getPackageName(),
-                R.layout.example_appwidget);
+        RemoteViews views = new RemoteViews(getPackageName(), R.layout.recipe_widget_provider);
         appWidgetManager.updateAppWidget(mAppWidgetId, views);
-
 
         Intent resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
         setResult(RESULT_OK, resultValue);
-        finish();
-
+        //finish();
 
     }
+
+    private void RetrofitCall() {
+        DataService service = RetrofitClient.getRetrofitInstance().create(DataService.class);
+        Call<List<RecipeModel>> call = service.getRecipes();
+        ExecuteClient(call);
+    }
+
+    private void ExecuteClient(Call<List<RecipeModel>> call) {
+
+        try {
+            call.enqueue(new Callback<List<RecipeModel>>(){
+
+                @Override
+                public void onResponse(Call<List<RecipeModel>> call, Response<List<RecipeModel>> response) {
+                    Log.e("$lala SUCCESS -> ", "SUCCESS");
+
+                    RecyclerView recyclerRV = findViewById(R.id.recipeRV);
+                    ConfigurationActivityAdapter adapter = new ConfigurationActivityAdapter(getApplicationContext(), response.body(), mAppWidgetId);
+                    /*setting up adapter for recycler view in configuration activity*/
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                    recyclerRV.setLayoutManager(layoutManager);
+                    recyclerRV.setAdapter(adapter);
+                }
+
+                @Override
+                public void onFailure(Call<List<RecipeModel>> call, Throwable t) {
+                    Log.e("$lala ERROR -> ", t.toString());
+                }
+
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
