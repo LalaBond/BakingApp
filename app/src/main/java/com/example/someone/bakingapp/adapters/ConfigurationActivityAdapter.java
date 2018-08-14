@@ -1,5 +1,6 @@
 package com.example.someone.bakingapp.adapters;
 
+import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.example.someone.bakingapp.R;
 import com.example.someone.bakingapp.RecipeDetailsActivity;
 import com.example.someone.bakingapp.RecipeWidgetProvider;
+import com.example.someone.bakingapp.RecipeWidgetViewService;
 import com.example.someone.bakingapp.models.RecipeModel;
 
 import java.io.Serializable;
@@ -82,44 +84,22 @@ public class ConfigurationActivityAdapter extends RecyclerView.Adapter<Configura
 
                     AppWidgetManager widgetmanager = AppWidgetManager.getInstance(context);
 
-                    //widgetmanager.
                     //obtain recipe name and ingredients then finish configuration activity
                     RemoteViews widgetView = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
                     widgetView.setTextViewText(R.id.widget_recipe_text, recipes.get(getAdapterPosition()).getName());
 
-                        Intent intent = new Intent(context, getClass());
-                        intent.putExtra("ingredients", (Serializable) recipes.get(getAdapterPosition()).getIngredients());
+                        Intent intent = new Intent(context, RecipeWidgetViewService.class);
+                        //intent.putExtra("ingredients", recipes.get(getAdapterPosition()));
 
-                        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+                        //intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
                         widgetView.setRemoteAdapter(R.id.widget_ingredient_list, intent);
                         widgetmanager.updateAppWidget(mAppWidgetId, widgetView);
+                        ((Activity)context).finish();
 
                     } catch (Exception e) {
                         Log.e("$lala error -> ", e.toString());
                     }
 
-//                    try {
-//                        finalize();
-//                    } catch (Exception e) {
-//                        Log.e("$lala error -> ", e.toString());
-//                    } catch (Throwable throwable) {
-//                        throwable.printStackTrace();
-//                    }
-
-                    //.finish();
-
-//                    Intent recipeDetails = null;
-//                    try {
-//
-//                        recipeDetails = new Intent(context, RecipeDetailsActivity.class);
-//                        recipeDetails.putExtra("recipe", recipes.get(getAdapterPosition()));
-//
-//                        context.startActivity(recipeDetails);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                        Log.e("$lala error -> ", e.toString());
-//                    }
-//
                 }
            });
         }

@@ -39,6 +39,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
                 views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
                 Intent serviceIntent = new Intent(context, RecipeWidgetViewService.class);
+
                 views.setRemoteAdapter(R.id.widget_ingredient_list, serviceIntent);
                 views.setOnClickPendingIntent(R.id.button, pendingIntent);
 

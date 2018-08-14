@@ -1,6 +1,8 @@
 package com.example.someone.bakingapp;
 
+import android.app.Activity;
 import android.appwidget.AppWidgetManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -29,13 +31,14 @@ import retrofit2.Retrofit;
 public class WidgetConfigurationActivity extends AppCompatActivity {
 
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+    private Context context = this;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_widget_configuration);
-
+        //Context context = this;
         Log.e("INFO", "ENTERING WIDGET CONFIGURATION ACTIVITY");
 
         Intent intent = getIntent();
@@ -74,11 +77,12 @@ public class WidgetConfigurationActivity extends AppCompatActivity {
                     Log.e("$lala SUCCESS -> ", "SUCCESS");
 
                     RecyclerView recyclerRV = findViewById(R.id.recipeRV);
-                    ConfigurationActivityAdapter adapter = new ConfigurationActivityAdapter(getApplicationContext(), response.body(), mAppWidgetId);
+                    ConfigurationActivityAdapter adapter = new ConfigurationActivityAdapter(context, response.body(), mAppWidgetId);
                     /*setting up adapter for recycler view in configuration activity*/
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                     recyclerRV.setLayoutManager(layoutManager);
                     recyclerRV.setAdapter(adapter);
+                    //finish();
                 }
 
                 @Override
