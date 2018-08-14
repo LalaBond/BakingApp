@@ -15,15 +15,19 @@ import com.example.someone.bakingapp.models.RecipeModel;
 public class RecipeDetailsActivity extends AppCompatActivity {
 
 private ViewPager pager;
-    private RecipeModel recipeModel;
+private RecipeModel recipeModel;
+private boolean twoPane;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe_details);
 
+        setContentView(R.layout.activity_recipe_details);
         Intent intent = getIntent();
 
         recipeModel = (RecipeModel) intent.getSerializableExtra("recipe");
+        //twoPane = intent.getBooleanExtra("twoPane", false);
+
 
         /*View pager adapter*/
         RecipePagerAdapter pagerAdapter = new RecipePagerAdapter(getSupportFragmentManager(), this, recipeModel);

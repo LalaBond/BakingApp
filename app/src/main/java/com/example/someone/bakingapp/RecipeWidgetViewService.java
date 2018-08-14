@@ -25,28 +25,33 @@ import retrofit2.Response;
 
 public class RecipeWidgetViewService extends RemoteViewsService {
 
-    private RecipeModel body;
+    private int pos;
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
+        if(intent != null) {
 
-        body =  (RecipeModel) intent.getSerializableExtra("ingredients");
-        return new GridRemoteViewsFactory(this.getApplicationContext(), body.getIngredients());
+            pos = intent.getIntExtra("pos", 0);
+
+        }
+        return new GridRemoteViewsFactory(this.getApplicationContext(), pos);
     }
 
 }
 
 class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
 
-    //private List<RecipeModel> body;
+    private List<RecipeModel> body;
     private Context context;
-    private List<IngredientModel> ingredients;
+    private int position;
 
-    public GridRemoteViewsFactory(Context applicationContext, List<IngredientModel> ingredients) {
+    public GridRemoteViewsFactory(Context applicationContext, int position) {
 
         context = applicationContext;
-        this.ingredients = ingredients;
-//        RetrofitCall();
-            }
+        this.position = position;
+
+
+        RetrofitCall();
+    }
 
     @Override
     public void onCreate() {
@@ -55,32 +60,32 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
 
     }
 
-//    private void RetrofitCall() {
-//        DataService service = RetrofitClient.getRetrofitInstance().create(DataService.class);
-//        Call<List<RecipeModel>> call = service.getRecipes();
-//        ExecuteClient(call);
-//    }
+    private void RetrofitCall() {
+        DataService service = RetrofitClient.getRetrofitInstance().create(DataService.class);
+        Call<List<RecipeModel>> call = service.getRecipes();
+        ExecuteClient(call);
+    }
 
-//    private void ExecuteClient(Call<List<RecipeModel>> call) {
-//
-//        call.enqueue(new Callback<List<RecipeModel>>() {
-//            @Override
-//            public void onResponse(Call<List<RecipeModel>> call, Response<List<RecipeModel>> response) {
-//
-//                body = response.body();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<RecipeModel>> call, Throwable t) {
-//
-//                Log.e("$lala error -> ", t.toString());
-//            }
-//        });
-//    }
+    private void ExecuteClient(Call<List<RecipeModel>> call) {
+
+        call.enqueue(new Callback<List<RecipeModel>>() {
+            @Override
+            public void onResponse(Call<List<RecipeModel>> call, Response<List<RecipeModel>> response) {
+
+                body = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<List<RecipeModel>> call, Throwable t) {
+
+                Log.e("$lala error -> ", t.toString());
+            }
+        });
+    }
 
     @Override
     public void onDataSetChanged() {
-        //RetrofitCall();
+        RetrofitCall();
     }
 
     @Override
@@ -91,8 +96,8 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
     @Override
     public int getCount() {
 
-        if(ingredients != null) {
-            int x = ingredients.size();
+        if(body != null) {
+            int x = body.get(0).getIngredients().size();
             return x;
         }else{
          return 0;
@@ -104,15 +109,12 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
     public RemoteViews getViewAt(int i) {
 
         //setting up ingredients of the first list in item
+        //rv.setTextViewText(R.id.ingredient,body.get(0).getIngredients().get(i).ingredient);
 
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.ingredient_widget_list_item);
-        rv.setTextViewText(R.id.ingredient,ingredients.get(i).ingredient);
-        rv.setTextViewText(R.id.quantity, String.valueOf(ingredients.get(i).quantity));
-        rv.setTextViewText(R.id.measure, ingredients.get(i).measure);
-
-//        rv.setTextViewText(R.id.ingredient,"MOFONGO");
-//        rv.setTextViewText(R.id.quantity,"ARROZ");
-//        rv.setTextViewText(R.id.measure, "BICHUELAAAA");
+        rv.setTextViewText(R.id.ingredient,body.get(position).getIngredients().get(i).ingredient);
+        rv.setTextViewText(R.id.quantity, String.valueOf(body.get(position).getIngredients().get(i).quantity));
+        rv.setTextViewText(R.id.measure, body.get(position).getIngredients().get(i).measure);
 
         return rv;
     }

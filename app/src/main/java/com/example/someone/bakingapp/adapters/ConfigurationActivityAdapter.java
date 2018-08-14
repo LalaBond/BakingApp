@@ -88,10 +88,10 @@ public class ConfigurationActivityAdapter extends RecyclerView.Adapter<Configura
                     RemoteViews widgetView = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
                     widgetView.setTextViewText(R.id.widget_recipe_text, recipes.get(getAdapterPosition()).getName());
 
+                        /*Sending position of item clicked to RecipeWidgetViewService and setting adapter to widget LV*/
                         Intent intent = new Intent(context, RecipeWidgetViewService.class);
-                        //intent.putExtra("ingredients", recipes.get(getAdapterPosition()));
+                        intent.putExtra("pos", getAdapterPosition());
 
-                        //intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
                         widgetView.setRemoteAdapter(R.id.widget_ingredient_list, intent);
                         widgetmanager.updateAppWidget(mAppWidgetId, widgetView);
                         ((Activity)context).finish();

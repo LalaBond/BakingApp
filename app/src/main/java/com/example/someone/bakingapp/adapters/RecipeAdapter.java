@@ -28,11 +28,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
     private List<RecipeModel> recipes = new ArrayList<>();
     private Context context;
+    private boolean twoPane;
 
-    public RecipeAdapter(Context context, List<RecipeModel> body) {
+    public RecipeAdapter(Context context, List<RecipeModel> body, boolean twoPane) {
 
         recipes = body;
         this.context = context;
+        this.twoPane = twoPane;
     }
 
     @Override
@@ -76,6 +78,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
                         recipeDetails = new Intent(context, RecipeDetailsActivity.class);
                         recipeDetails.putExtra("recipe", recipes.get(getAdapterPosition()));
+                        recipeDetails.putExtra("twoPane", twoPane);
 
                         context.startActivity(recipeDetails);
                     } catch (Exception e) {

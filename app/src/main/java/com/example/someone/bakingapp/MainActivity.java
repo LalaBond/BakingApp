@@ -27,6 +27,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    private boolean twoPane = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,14 @@ public class MainActivity extends AppCompatActivity {
 
         if (findViewById(R.id.tablet_linear_layout) != null) {
 
-            RetrofitCall();
+            twoPane = true;
+
+
+            try {
+                RetrofitCall();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         } else {
             //populate phone
@@ -94,21 +103,31 @@ public class MainActivity extends AppCompatActivity {
 
     private void createAdapter(List<RecipeModel> body) {
 
-        RecipeAdapter adapter = new RecipeAdapter(this, body);
+        if(twoPane){
+            /*Create here adapter setup*/
+//        RecipePagerAdapter pagerAdapter = new RecipePagerAdapter(getSupportFragmentManager(), this, recipeModel);
+//
+//        pager = findViewById(R.id.pager);
+//        pager.setAdapter(pagerAdapter);
+        }
+        else {
 
-        RecyclerView recipeRecyclerView = findViewById(R.id.recipeRecyclerView);
+            RecipeAdapter adapter = new RecipeAdapter(this, body, twoPane);
+
+            RecyclerView recipeRecyclerView = findViewById(R.id.recipeRecyclerView);
 
         /*Divider for recycler view*/
-        DividerItemDecoration listDivider = new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL);
-        listDivider.setDrawable((ContextCompat.getDrawable(this, R.drawable.list_divider)));
+            DividerItemDecoration listDivider = new DividerItemDecoration(this,
+                    DividerItemDecoration.VERTICAL);
+            listDivider.setDrawable((ContextCompat.getDrawable(this, R.drawable.list_divider)));
 
-        recipeRecyclerView.addItemDecoration(listDivider);
+            recipeRecyclerView.addItemDecoration(listDivider);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recipeRecyclerView.setLayoutManager(layoutManager);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            recipeRecyclerView.setLayoutManager(layoutManager);
 
-        recipeRecyclerView.setAdapter(adapter);
+            recipeRecyclerView.setAdapter(adapter);
+        }
 
     }
 
