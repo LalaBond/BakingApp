@@ -2,7 +2,10 @@ package com.example.someone.bakingapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +18,6 @@ import com.example.someone.bakingapp.R;
 import com.example.someone.bakingapp.RecipeDetailsActivity;
 import com.example.someone.bakingapp.models.RecipeModel;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,16 +54,17 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
     }
 
-
     @Override
     public int getItemCount() {
         return recipes.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView nameTv;
         LinearLayout itemLinearLayout;
+
+
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -73,17 +76,31 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 @Override
                 public void onClick(View view) {
 
-                    Intent recipeDetails = null;
-                    try {
 
-                        recipeDetails = new Intent(context, RecipeDetailsActivity.class);
-                        recipeDetails.putExtra("recipe", recipes.get(getAdapterPosition()));
-                        recipeDetails.putExtra("twoPane", twoPane);
+                    if (twoPane) {
+                        try {
+                            RecipePagerAdapter pagerAdapter = new RecipePagerAdapter(((AppCompatActivity) context).getSupportFragmentManager(), context, recipes.get(getAdapterPosition()));
 
-                        context.startActivity(recipeDetails);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.e("$lala error -> ", e.toString());
+                            System.out.println("lala get aparent! " + ((AppCompatActivity) context).getParent());
+                            ViewPager pager = view.findViewById(R.id.pager);
+                            pager.setAdapter(pagerAdapter);
+                        } catch (Exception e) {
+                           Log.e("$lala error -> ", e.toString());
+                        }
+
+                    } else {
+                        Intent recipeDetails = null;
+                        try {
+
+                            recipeDetails = new Intent(context, RecipeDetailsActivity.class);
+                            recipeDetails.putExtra("recipe", recipes.get(getAdapterPosition()));
+                            recipeDetails.putExtra("twoPane", twoPane);
+
+                            context.startActivity(recipeDetails);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.e("$lala error -> ", e.toString());
+                        }
                     }
 
                 }

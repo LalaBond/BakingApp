@@ -103,14 +103,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void createAdapter(List<RecipeModel> body) {
 
-        if(twoPane){
-            /*Create here adapter setup*/
-//        RecipePagerAdapter pagerAdapter = new RecipePagerAdapter(getSupportFragmentManager(), this, recipeModel);
-//
-//        pager = findViewById(R.id.pager);
-//        pager.setAdapter(pagerAdapter);
-        }
-        else {
+//        if(twoPane){
+//            /*Create here adapter setup*/
+////        RecipePagerAdapter pagerAdapter = new RecipePagerAdapter(getSupportFragmentManager(), this, recipeModel);
+////
+////        pager = findViewById(R.id.pager);
+////        pager.setAdapter(pagerAdapter);
+//        }
+//        else {
 
             RecipeAdapter adapter = new RecipeAdapter(this, body, twoPane);
 
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             recipeRecyclerView.setLayoutManager(layoutManager);
 
             recipeRecyclerView.setAdapter(adapter);
-        }
+        //}
 
     }
 
