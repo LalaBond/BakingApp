@@ -31,12 +31,26 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     private List<RecipeModel> recipes = new ArrayList<>();
     private Context context;
     private boolean twoPane;
+    private View twoPaneView;
+    private FragmentManager fm;
+    private ViewPager pager;
 
-    public RecipeAdapter(Context context, List<RecipeModel> body, boolean twoPane) {
+
+     public RecipeAdapter(Context context, List<RecipeModel> body, boolean twoPane){
+        recipes = body;
+        this.context = context;
+        this.twoPane = twoPane;
+
+    }
+
+    public RecipeAdapter(Context context, List<RecipeModel> body, boolean twoPane, View view, FragmentManager fm, ViewPager pager) {
 
         recipes = body;
         this.context = context;
         this.twoPane = twoPane;
+        twoPaneView = view;
+        this.fm = fm;
+        this.pager = pager;
     }
 
     @Override
@@ -76,13 +90,14 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                 @Override
                 public void onClick(View view) {
 
-
                     if (twoPane) {
                         try {
-                            RecipePagerAdapter pagerAdapter = new RecipePagerAdapter(((AppCompatActivity) context).getSupportFragmentManager(), context, recipes.get(getAdapterPosition()));
+                            RecipePagerAdapter pagerAdapter = new RecipePagerAdapter(fm, context, recipes.get(getAdapterPosition()));
 
-                            System.out.println("lala get aparent! " + ((AppCompatActivity) context).getParent());
-                            ViewPager pager = view.findViewById(R.id.pager);
+                            //System.out.println("VIEW "+  twoPaneView.getParent());
+                            //System.out.println("lala get aparent! " + ((AppCompatActivity) context).getParent());
+
+                            //ViewPager pager = view.findViewById(R.id.pager);
                             pager.setAdapter(pagerAdapter);
                         } catch (Exception e) {
                            Log.e("$lala error -> ", e.toString());

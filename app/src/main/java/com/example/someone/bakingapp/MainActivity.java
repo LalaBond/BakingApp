@@ -32,22 +32,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
 
         if (findViewById(R.id.tablet_linear_layout) != null) {
 
+            //if its a two pane layout fragment activity will be called (ListFragment)
             twoPane = true;
 
-
-            try {
-                RetrofitCall();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
         } else {
-            //populate phone
+            //populate phone if its not a two pane layout.  Continue with calls
             Toolbar toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 
@@ -81,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private void ExecuteClient(Call<List<RecipeModel>> call) {
 
         try {
-            call.enqueue(new Callback<List<RecipeModel>>(){
+            call.enqueue(new Callback<List<RecipeModel>>() {
 
                 @Override
                 public void onResponse(Call<List<RecipeModel>> call, Response<List<RecipeModel>> response) {
@@ -103,31 +97,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void createAdapter(List<RecipeModel> body) {
 
-//        if(twoPane){
-//            /*Create here adapter setup*/
-////        RecipePagerAdapter pagerAdapter = new RecipePagerAdapter(getSupportFragmentManager(), this, recipeModel);
-////
-////        pager = findViewById(R.id.pager);
-////        pager.setAdapter(pagerAdapter);
-//        }
-//        else {
+        RecipeAdapter adapter = new RecipeAdapter(this, body, twoPane);
 
-            RecipeAdapter adapter = new RecipeAdapter(this, body, twoPane);
-
-            RecyclerView recipeRecyclerView = findViewById(R.id.recipeRecyclerView);
+        RecyclerView recipeRecyclerView = findViewById(R.id.recipeRecyclerView);
 
         /*Divider for recycler view*/
-            DividerItemDecoration listDivider = new DividerItemDecoration(this,
-                    DividerItemDecoration.VERTICAL);
-            listDivider.setDrawable((ContextCompat.getDrawable(this, R.drawable.list_divider)));
+        DividerItemDecoration listDivider = new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL);
+        listDivider.setDrawable((ContextCompat.getDrawable(this, R.drawable.list_divider)));
 
-            recipeRecyclerView.addItemDecoration(listDivider);
+        recipeRecyclerView.addItemDecoration(listDivider);
 
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            recipeRecyclerView.setLayoutManager(layoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recipeRecyclerView.setLayoutManager(layoutManager);
 
-            recipeRecyclerView.setAdapter(adapter);
-        //}
+        recipeRecyclerView.setAdapter(adapter);
 
     }
 
