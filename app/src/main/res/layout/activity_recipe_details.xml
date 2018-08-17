@@ -8,11 +8,11 @@
     android:background="@android:color/white"
     tools:context="com.example.someone.bakingapp.RecipeDetailsActivity">
 
-    <ImageView
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:id="@+id/recipeImage"/>
+        android:id="@+id/recipeNameTv"
+        android:textColor="@color/grayText"/>
 
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"

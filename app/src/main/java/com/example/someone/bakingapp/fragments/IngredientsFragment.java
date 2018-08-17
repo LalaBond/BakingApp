@@ -22,7 +22,7 @@ public class IngredientsFragment extends Fragment {
     private Context context;
     private RecipeModel recipeModel;
 
-    @SuppressLint("ValidFragment")
+
     public IngredientsFragment(Context context, RecipeModel recipeModel) {
         this.context = context;
         this.recipeModel = recipeModel;
