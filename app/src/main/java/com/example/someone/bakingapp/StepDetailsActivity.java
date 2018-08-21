@@ -8,7 +8,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.someone.bakingapp.models.IngredientModel;
@@ -31,6 +33,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 public class StepDetailsActivity extends AppCompatActivity implements ExoPlayer.EventListener{
 
@@ -51,18 +54,34 @@ public class StepDetailsActivity extends AppCompatActivity implements ExoPlayer.
 
         playerView = findViewById(R.id.playerView);
         descriptionTv = findViewById(R.id.description);
+        ImageView recipeThumbnailIV =  findViewById(R.id.recipeThumbnail);
 
         descriptionTv.setText(stepsModel.description);
 
         Uri uri;
         if(!stepsModel.videoURL.isEmpty()) {
-
+            playerView.setVisibility(View.VISIBLE);
+            recipeThumbnailIV.setVisibility(View.GONE);
             uri = Uri.parse(stepsModel.videoURL);
             initializePlayer(uri);
         }
         else if(!stepsModel.thumbnailURL.isEmpty()){
-            uri = Uri.parse(stepsModel.thumbnailURL);
-            initializePlayer(uri);
+            String extension = stepsModel.thumbnailURL.substring(stepsModel.thumbnailURL.lastIndexOf("."));
+
+            switch(extension) {
+                case ".mp4":
+                    playerView.setVisibility(View.GONE);
+                    Log.e("DEBUG", "Cant load image to video player");
+                    break;
+                default:
+                    playerView.setVisibility(View.GONE);
+                    recipeThumbnailIV.setVisibility(View.VISIBLE);
+                    Picasso.with(this)
+                            .load(stepsModel.thumbnailURL)
+                            .into(recipeThumbnailIV);
+                    break;
+
+            }
         }
         else{
             playerView.setVisibility(playerView.GONE);
@@ -89,6 +108,9 @@ public class StepDetailsActivity extends AppCompatActivity implements ExoPlayer.
             player.prepare(mediaSource);
             player.setPlayWhenReady(true);
 
+        }
+        else{
+            releasePlayer();
         }
     }
 
