@@ -63,37 +63,44 @@ public class StepDetailsActivity extends AppCompatActivity implements ExoPlayer.
         descriptionTv.setText(stepsModel.description);
 
         videoInit();
-
     }
 
     private void videoInit() {
         Uri uri;
+        //if video url is not empty display video
         if(!stepsModel.videoURL.isEmpty()) {
             playerView.setVisibility(View.VISIBLE);
             recipeThumbnailIV.setVisibility(View.GONE);
             uri = Uri.parse(stepsModel.videoURL);
             initializePlayer(uri);
         }
-        else if(!stepsModel.thumbnailURL.isEmpty()){
-            String extension = stepsModel.thumbnailURL.substring(stepsModel.thumbnailURL.lastIndexOf("."));
+        else { //Check to display thumbnail
 
-            switch(extension) {
-                case ".mp4":
-                    playerView.setVisibility(View.GONE);
-                    Log.e("DEBUG", "Cant load image to video player");
-                    break;
-                default:
-                    playerView.setVisibility(View.GONE);
-                    recipeThumbnailIV.setVisibility(View.VISIBLE);
-                    Picasso.with(this)
-                            .load(stepsModel.thumbnailURL)
-                            .into(recipeThumbnailIV);
-                    break;
+            //If thumbnail is not empty....
+            if(!stepsModel.thumbnailURL.isEmpty()) {
+                String extension = stepsModel.thumbnailURL.substring(stepsModel.thumbnailURL.lastIndexOf("."));
+
+                //check if its with video format and handle it as error
+                switch (extension) {
+                    case ".mp4":
+                        playerView.setVisibility(View.GONE);
+                        Log.e("DEBUG", "Cant load image to video player");
+                        break;
+                        //Else display image with picasso
+                    default:
+                        playerView.setVisibility(View.GONE);
+                        recipeThumbnailIV.setVisibility(View.VISIBLE);
+                        Picasso.with(this)
+                                .load(stepsModel.thumbnailURL)
+                                .into(recipeThumbnailIV);
+                        break;
+                }
+                //if thumbnail was also empty, display nothing
+            }  else{
+                playerView.setVisibility(playerView.GONE);
             }
         }
-        else{
-            playerView.setVisibility(playerView.GONE);
-        }
+
     }
 
     @Override

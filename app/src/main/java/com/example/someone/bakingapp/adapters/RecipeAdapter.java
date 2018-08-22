@@ -115,7 +115,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
                             Log.e("$lala error -> ", e.toString());
                         }
                     }
-
                 }
             });
         }
