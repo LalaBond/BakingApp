@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.opengl.Visibility;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -41,6 +42,8 @@ public class StepDetailsActivity extends AppCompatActivity implements ExoPlayer.
     private SimpleExoPlayerView playerView;
     private SimpleExoPlayer player;
     private TextView descriptionTv;
+    private long vPosition = 0;
+    private ImageView recipeThumbnailIV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +57,15 @@ public class StepDetailsActivity extends AppCompatActivity implements ExoPlayer.
 
         playerView = findViewById(R.id.playerView);
         descriptionTv = findViewById(R.id.description);
-        ImageView recipeThumbnailIV =  findViewById(R.id.recipeThumbnail);
+        recipeThumbnailIV =  findViewById(R.id.recipeThumbnail);
 
         descriptionTv.setText(stepsModel.description);
 
+        videoInit();
+
+    }
+
+    private void videoInit() {
         Uri uri;
         if(!stepsModel.videoURL.isEmpty()) {
             playerView.setVisibility(View.VISIBLE);
@@ -86,7 +94,35 @@ public class StepDetailsActivity extends AppCompatActivity implements ExoPlayer.
         else{
             playerView.setVisibility(playerView.GONE);
         }
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putLong("video_position", vPosition);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(player == null) {
+            videoInit();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(player != null) {
+            vPosition = player.getCurrentPosition();
+            releasePlayer();
+        }
     }
 
     private void initializePlayer(Uri uri){
@@ -106,6 +142,7 @@ public class StepDetailsActivity extends AppCompatActivity implements ExoPlayer.
             MediaSource mediaSource = new ExtractorMediaSource(uri, new DefaultDataSourceFactory(
                     this, userAgent), new DefaultExtractorsFactory(), null, null);
             player.prepare(mediaSource);
+            player.seekTo(vPosition);
             player.setPlayWhenReady(true);
 
         }
