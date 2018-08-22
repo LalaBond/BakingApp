@@ -44,6 +44,7 @@ public class StepDetailsActivity extends AppCompatActivity implements ExoPlayer.
     private TextView descriptionTv;
     private long vPosition = 0;
     private ImageView recipeThumbnailIV;
+    private boolean playWhenReady;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +89,6 @@ public class StepDetailsActivity extends AppCompatActivity implements ExoPlayer.
                             .load(stepsModel.thumbnailURL)
                             .into(recipeThumbnailIV);
                     break;
-
             }
         }
         else{
@@ -100,6 +100,7 @@ public class StepDetailsActivity extends AppCompatActivity implements ExoPlayer.
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
         outState.putLong("video_position", vPosition);
+        outState.putBoolean("player_state", playWhenReady);
     }
 
     @Override
@@ -113,13 +114,13 @@ public class StepDetailsActivity extends AppCompatActivity implements ExoPlayer.
     @Override
     protected void onStop() {
         super.onStop();
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         if(player != null) {
+            playWhenReady = player.getPlayWhenReady();
             vPosition = player.getCurrentPosition();
             releasePlayer();
         }
@@ -143,7 +144,7 @@ public class StepDetailsActivity extends AppCompatActivity implements ExoPlayer.
                     this, userAgent), new DefaultExtractorsFactory(), null, null);
             player.prepare(mediaSource);
             player.seekTo(vPosition);
-            player.setPlayWhenReady(true);
+            player.setPlayWhenReady(playWhenReady);
 
         }
         else{
@@ -158,7 +159,6 @@ public class StepDetailsActivity extends AppCompatActivity implements ExoPlayer.
             player.release();
             player = null;
         }
-
     }
 
     @Override
