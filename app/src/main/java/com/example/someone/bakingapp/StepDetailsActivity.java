@@ -44,11 +44,17 @@ public class StepDetailsActivity extends AppCompatActivity implements ExoPlayer.
     private TextView descriptionTv;
     private long vPosition = 0;
     private ImageView recipeThumbnailIV;
-    private boolean playWhenReady;
+    private boolean playWhenReady = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null){
+            vPosition = savedInstanceState.getLong("video_position");
+            playWhenReady = savedInstanceState.getBoolean("player_state");
+        }
+
         setContentView(R.layout.activity_step_details);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -135,7 +141,7 @@ public class StepDetailsActivity extends AppCompatActivity implements ExoPlayer.
 
     private void initializePlayer(Uri uri){
 
-        if(player== null){
+        if(player == null){
 
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
