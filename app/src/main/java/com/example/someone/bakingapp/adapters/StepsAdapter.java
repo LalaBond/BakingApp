@@ -70,6 +70,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
 
                            try {
                                Intent intent = new Intent(context, StepDetailsActivity.class);
+                               intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                intent.putExtra("recipe", recipeModel.getSteps().get((getAdapterPosition())));
                                context.startActivity(intent);
                            } catch (Exception e) {
